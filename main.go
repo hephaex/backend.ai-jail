@@ -6,7 +6,7 @@ Command-line usage:
 	./jail -policy <policy_file> <child_args ...>
 
 Example:
-	./jail -policy python3.yml /bin/sh /home/sorna/run.sh
+	./jail -policy python3.yml /bin/sh /home/backend.ai/run.sh
 */
 package main
 
@@ -14,8 +14,8 @@ import (
 	"flag"
 	"fmt"
 	"github.com/fatih/color"
-	"github.com/lablup/sorna-jail/policy"
-	"github.com/lablup/sorna-jail/utils"
+	"github.com/hephaex/backend.ai-jail/policy"
+	"github.com/hephaex/backend.ai-jail/utils"
 	seccomp "github.com/seccomp/libseccomp-golang"
 	"log"
 	"os"
@@ -180,7 +180,7 @@ loop:
 				// Since we set Setsid: true in SysProcAttr of syscall.ForkExec(),
 				// the signals we receive are NOT automatically delivered to children.
 				// We control the SIGINT/SIGTERM behaviour gracefully for later
-				// extension of Sorna.
+				// extension of Backend.AI.
 				pgid, _ := syscall.Getpgid(pid)
 				syscall.Kill(pgid, syscall.SIGKILL)
 
@@ -610,7 +610,7 @@ func main() {
 		// Deleting policy file may be the simplest way to deny further
 		// access to the policy by the child process. To preserve
 		// policy file in development phase, we delete policy files in
-		// /home/sorna/ directory only (since runtime image will place
+		// /home/backend.ai/ directory only (since runtime image will place
 		// their policy files to the dir). Of course, this is not a
 		// general method, and there may be a need in the future to
 		// deny access in the basis of syscall filter (open). This will
@@ -623,7 +623,7 @@ func main() {
 			abspath = filepath.Join(cwd, policyFile)
 		}
 		dir, _ = filepath.Split(abspath)
-		if dir == "/home/sorna/" {
+		if dir == "/home/backend.ai/" {
 			os.Remove(abspath)
 		}
 
