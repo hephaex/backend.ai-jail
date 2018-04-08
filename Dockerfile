@@ -1,4 +1,4 @@
-FROM golang:1.8-alpine
+FROM golang:1.10.1-alpine3.7
 # This container is for daily development.
 
 RUN apk add --no-cache build-base git libseccomp-dev linux-headers
